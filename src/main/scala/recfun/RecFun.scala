@@ -1,17 +1,26 @@
 package recfun
 
+import scala.compiletime.ops.any
+import scala.annotation.tailrec
+
 object RecFun extends RecFunInterface:
 
   def main(args: Array[String]): Unit =
 
+    // * Exercise 1
     // println("Pascal's Triangle")
     // for row <- 0 to 10 do
     //   for col <- 0 to row do
     //     print(s"${pascal(col, row)} ")
     //   println()
 
-    val balanceResult: Boolean = balance("())(".toList)
-    println(balanceResult)
+    // * Exercise 2
+    // val balanceResult: Boolean = balance("())(".toList)
+    // println(balanceResult)
+
+    // * Exercise 3
+    val countConins: Int  = countChange(5, List(1, 3))
+    println(countConins)
 
   /**
    * Exercise 1
@@ -62,4 +71,12 @@ object RecFun extends RecFunInterface:
   /**
    * Exercise 3
    */
-  def countChange(money: Int, coins: List[Int]): Int = ???
+  def countChange(money: Int, coins: List[Int]): Int = {
+    
+    if (money < 0 || coins.isEmpty)
+      0
+    else if (money == 0)
+      1
+    else
+      countChange(money - coins.head, coins) + countChange(money, coins.tail)
+  }
