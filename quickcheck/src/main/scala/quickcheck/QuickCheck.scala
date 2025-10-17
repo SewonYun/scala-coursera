@@ -54,3 +54,17 @@ abstract class QuickCheckHeap extends Properties("Heap") with IntHeap:
     else findMin(m) == Math.min(findMin(h1), findMin(h2))
   }
 
+  property("deleteMin2") = forAll { (a: Int, b: Int) =>
+    val h = insert(b, insert(a, empty))
+    val h2 = deleteMin(h)
+    findMin(h2) == Math.max(a, b)
+  }
+
+  property("meld2") = forAll { (h1: H, h2: H) =>
+    def toList(h: H): List[Int] =
+      if isEmpty(h) then Nil
+      else findMin(h) :: toList(deleteMin(h))
+    val m = meld(h1, h2)
+    toList(m) == (toList(h1) ++ toList(h2)).sorted
+  }
+
